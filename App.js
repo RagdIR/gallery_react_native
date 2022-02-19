@@ -9,7 +9,7 @@ import {
   StyleSheet
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { AntDesign } from '@expo/vector-icons';
 
 
 
@@ -39,6 +39,21 @@ export default function App() {
     }
   };
 
+  const pickCamera = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4,3],
+      quality:1,
+    });
+
+    console.log(result);
+
+    if(!result.cancelled){
+      setImage(result.uri);
+    }
+  };
+
   if (hasPermission === false){
     return <Text>No access to Internal Storage{"\n"}Нет доступа к Внутреннему Хранилищу</Text>
   }
@@ -48,9 +63,8 @@ export default function App() {
       <TouchableOpacity
         onPress={() => pickImage()}
         style={styles.addButton}>
-                  <FontAwesomeIcon icon="fa-solid fa-plus" />
+                  <AntDesign name="plus" size={24} color="white" />
         {image && <Image source={{uri: image}} style={{flex:1/2}}/>}
-        {/* <Text style={{color: 'white', fontSize: 24,}}>+</Text> */}
 
       </TouchableOpacity>
     </View>
